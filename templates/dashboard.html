@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My News Aggregator Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <h1>Welcome{% if name %}, {{ name }}{% endif %}!</h1>
+
+    <h2>Here are the latest news articles:</h2>
+
+    <div class="news">
+        {% if news_articles %}
+        {% for article in news_articles %}
+        <div class="article">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.description }}</p>
+            {% if article.image %}
+                <img src="{{ article.image }}" alt="{{ article.title }}">
+            {% endif %}
+            <a href="{{ article.url }}" target="_blank">Read more</a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No articles found</p>
+        {% endif %}
+    </div>
+
+    {% if not loggedin %}
+    <div class="auth">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('signup') }}">Signup</a>
+    </div>
+    {% else %}
+    <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+</body>
+</html>
